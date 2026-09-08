@@ -82,7 +82,7 @@
 
   <div class="panel">
     <h1>✨ Panel Pembuat Link Undangan</h1>
-    <p>Halaman ini khusus kamu (Yoga). Masukkan nama tamu untuk membuat tautan dan langsung mengirimkannya ke WhatsApp.</p>
+    <p>Halaman khusus Yoga. Masukkan nama tamu untuk membuat tautan dan langsung mengirimkannya ke WhatsApp.</p>
 
     <label>Nama Tamu / Penerima:</label>
     <input type="text" id="inputNama" placeholder="Cth: Fitri Dewi / Pak Ahmad & Keluarga" autofocus />
@@ -107,7 +107,6 @@
         alert("Silakan ketik nama tamu terlebih dahulu!");
         return null;
       }
-      // Otomatis mengarah ke index.html (link utama undangan)
       const base = window.location.origin + window.location.pathname.replace('buat.html', '');
       return {
         nama: nama,
@@ -119,7 +118,8 @@
       const data = getLink();
       if (!data) return;
 
-      const pesan = `Kepada Yth. ${data.nama},\n\nTanpa mengurangi rasa hormat, kami bermaksud mengundang Anda untuk menghadiri perayaan Tasyakuran Wisuda saya:\n\n*Bintang Islami, S.Kom.*\nProgram Studi Sistem Informasi - Universitas Dharmas Indonesia\n\nUntuk detail acara lengkap, silakan buka tautan undangan berikut:\n${data.url}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan hadir. Terima kasih!`;
+      // Sudah diperbaiki ke identitas Yoga Okta Randa
+      const pesan = `Kepada Yth. ${data.nama},\n\nTanpa mengurangi rasa hormat, kami bermaksud mengundang Anda untuk menghadiri perayaan Tasyakuran Wisuda saya:\n\n*Yoga Okta Randa, S.Kom.*\nProgram Studi Teknik Informatika - Universitas Dharmas Indonesia\n\nUntuk detail acara lengkap, silakan buka tautan undangan berikut:\n${data.url}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan hadir. Terima kasih!`;
 
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(pesan)}`, '_blank');
     }
