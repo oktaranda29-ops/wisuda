@@ -293,8 +293,6 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      background: var(--primary-gradient);
-      color: #ffffff;
       text-decoration: none;
       padding: 14px;
       border-radius: 14px;
@@ -303,11 +301,111 @@
       transition: all 0.25s ease;
       box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
       border: none;
+      cursor: pointer;
     }
 
-    .btn:hover {
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+    .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 22px rgba(79, 70, 229, 0.45);
+    }
+
+    /* TOMBOL & KOTAK KADO DIGITAL */
+    .btn-gift {
+      background: #ffffff;
+      color: #d97706;
+      border: 1.5px solid #fde68a;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.1);
+    }
+    .btn-gift:hover {
+      background: #fefce8;
+      border-color: #f59e0b;
+      transform: translateY(-2px);
+    }
+
+    .gift-container {
+      display: none;
+      margin-top: 18px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 22px 18px;
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .gift-desc {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .qr-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid #cbd5e1;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+
+    .qr-img {
+      width: 190px;
+      height: 190px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .dana-info {
+      background: #eef2ff;
+      border: 1px dashed #818cf8;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .dana-label { font-size: 11px; color: #6366f1; font-weight: 600; text-transform: uppercase; }
+    .dana-number { font-size: 17px; font-weight: 800; color: #1e1b4b; margin: 4px 0 2px; }
+    .dana-name { font-size: 12px; color: #475569; }
+
+    .btn-copy-dana {
+      background: #111827;
+      color: #ffffff;
+      padding: 10px;
+      font-size: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+    }
+    .btn-copy-dana:hover { background: #374151; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      background: #10b981;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 999999;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @keyframes spinGlow {
@@ -315,7 +413,7 @@
       100% { transform: rotate(360deg); }
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
@@ -326,7 +424,7 @@
   <div id="coverScreen">
     <div class="cover-badge">Official Invitation</div>
     <h1 class="cover-title">Wisuda</h1>
-    <p class="cover-subtitle">Yoga Okta Randai, S.Kom.</p>
+    <p class="cover-subtitle">Yoga Okta Randa, S.Kom.</p>
 
     <div class="cover-guest-card">
       <small>Kepada Yth. Bapak/Ibu/Saudara/i:</small>
@@ -401,11 +499,44 @@
         </div>
       </div>
 
-      <a href="https://maps.app.goo.gl/AfNGh2tSTewBWKz17" target="_blank" rel="noopener noreferrer" class="btn">
+      <!-- Tombol Peta -->
+      <a href="https://maps.app.goo.gl/AfNGh2tSTewBWKz17" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
         📍 Buka Peta Google Maps
       </a>
+
+      <!-- Tombol Buka Kado Digital -->
+      <button type="button" class="btn btn-gift" onclick="toggleGift()">
+        🎁 Kirim Kado / Amplop Digital
+      </button>
+
+      <!-- KOTAK QR DANA (MUNCUL JIKA TOMBOL DIKLIK) -->
+      <div id="giftBox" class="gift-container">
+        <p class="gift-desc">
+          Doa dan kehadiran Anda merupakan karunia terindah bagi kami. Namun jika ingin memberikan tanda kasih secara digital, dapat melalui QRIS / DANA berikut:
+        </p>
+
+        <!-- QR Code DANA -->
+        <div class="qr-card">
+          <img src="dana.png" alt="QR DANA Yoga Okta Randa" class="qr-img" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=DANA-YOGA'" />
+        </div>
+
+        <!-- Detail Nomor DANA -->
+        <div class="dana-info">
+          <div class="dana-label">Akun DANA / E-Wallet</div>
+          <!-- GANTI NOMOR DANA DI BAWAH INI -->
+          <div class="dana-number" id="nomorDana">081276322208</div>
+          <div class="dana-name">a.n. Yoga Okta Randa</div>
+        </div>
+
+        <button type="button" class="btn-copy-dana" onclick="salinNomorDana()">
+          📋 Salin Nomor DANA
+        </button>
+      </div>
+
     </div>
   </div>
+
+  <div id="toast" class="toast">Nomor DANA berhasil disalin! 📋</div>
 
   <script>
     // 1. Ambil Nama Tamu dari Link (?to=Nama)
@@ -445,6 +576,27 @@
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // 4. Buka / Tutup Kotak Kado Digital
+    function toggleGift() {
+      const giftBox = document.getElementById('giftBox');
+      if (giftBox.style.display === 'block') {
+        giftBox.style.display = 'none';
+      } else {
+        giftBox.style.display = 'block';
+        giftBox.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 5. Salin Nomor DANA
+    function salinNomorDana() {
+      const nomor = document.getElementById('nomorDana').innerText;
+      navigator.clipboard.writeText(nomor).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      });
+    }
   </script>
 
 </body>
